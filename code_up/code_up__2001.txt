@@ -1,0 +1,25 @@
+#include <stdio.h>
+
+int main(void) {
+  int pasta[3], juice[2];
+  int *maxPa, *seconPa ,*maxju;
+  float result;
+  maxPa = &pasta[0];
+  maxju = &juice[0];
+  for(int i = 0; i<3;i++){
+    scanf("%d", &pasta[i]);
+    if(pasta[i] < *maxPa){
+      maxPa = &pasta[i];
+    }
+  }
+  for(int i = 0; i<2;i++){
+    scanf("%d", &juice[i]);
+    if(juice[i] < *maxju){
+      maxju = &juice[i];
+    }
+  }
+  result =(*maxPa + *maxju);
+  result = result + result/10;
+  printf("%.1f", result);
+  return 0;
+}

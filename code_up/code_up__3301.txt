@@ -1,0 +1,41 @@
+#include <stdio.h>
+
+int main(void) {
+  int money, count=0;
+  scanf("%d", &money);
+
+  if(money>=50000){
+    count += money/50000;
+    money = money%50000;
+  }
+   if(money>=10000){
+    count += money/10000;
+    money = money%10000;
+  }
+   if(money>=5000){
+    count += money/5000;
+    money = money%5000;
+  }
+   if(money>=1000){
+    count += money/1000;
+    money = money%1000;
+  }
+   if(money>=500){
+    count += money/500;
+    money = money%500;
+  }
+   if(money>=100){
+    count += money/100;
+    money = money%100;
+  }
+    if(money>=50){
+    count += money/50;
+    money = money%50;
+  }
+    if(money>=10){
+    count += money/10;
+    money = money%10;
+  }
+  printf("%d", count);
+  return 0;
+}
