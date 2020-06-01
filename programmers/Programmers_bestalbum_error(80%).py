@@ -9,13 +9,12 @@ def solution(genres, plays):
             Dgenres[g] = [p]
     for g in genres:
         Dgenres[g] = sorted(Dgenres[g], reverse=True)
-        Dgenres[g] = Dgenres[g][:2] 
-    Dgenres = sorted(Dgenres.items(), reverse=True)
-    
+    Dgenres = sorted(Dgenres.items(), reverse=True, key=lambda x:sum(x[1]))
     for d in Dgenres:
-        for nd in d[1]:
+        for nd in d[1][:2]:
             for a in range(len(genres)):
                 if d[0] == genres[a] and nd == plays[a] and onecchk[a] == 0:
                   answer.append(a)
-                  onecchk[a] = 1                  
+                  onecchk[a] = 1   
+                  break     
     return answer
