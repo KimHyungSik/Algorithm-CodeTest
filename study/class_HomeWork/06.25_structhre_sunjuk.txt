@@ -1,0 +1,159 @@
+#pragma warning(disable:4996)
+#include <stdio.h>
+#include <string.h>
+
+typedef struct {
+	double jumsu[5];
+}SCORE;
+
+typedef struct {
+	SCORE socre;
+	char name[20];
+	char grade;
+	int rank;
+}STUDENT;
+
+void input(STUDENT *stu);
+void grade(STUDENT *stu);
+void rank(STUDENT *stu);
+void print(STUDENT *stu);
+
+void bubleSorted(STUDENT *stu);
+void selectSoted(STUDENT *stu);
+
+void tempChar(char* x, char* y);//char swap x and y
+void tempInt(int *x,int* y);//int swap x and y
+void tempDouble(double *x,double* y);//Double swap x and y
+
+int main() {
+	STUDENT student[5] = {{0}};
+
+  input(student);
+  grade(student);
+  rank(student);
+  bubleSorted(student);
+  print(student);
+  printf("================================\n");
+  selectSoted(student);
+  print(student);
+}
+
+void input(STUDENT *stu){
+for (int i = 0; i < 5; i++) {
+		printf("이름 입력 : ");
+		scanf("%s", (stu+i)->name);
+		for (int j = 0; j < 3; j++) {
+			printf("%d과목 점수 입력 : ", j+1);
+			scanf("%lf", &(stu+i)->socre.jumsu[j]);
+      (stu+i)->socre.jumsu[3] += (stu+i)->socre.jumsu[j];
+		}
+    (stu+i)->socre.jumsu[4] = (stu+i)->socre.jumsu[3] / 3.0;
+	}
+}
+
+void grade(STUDENT *stu){
+  for (int i = 0; i < 5; i++) {
+		int temp = (stu+i)->socre.jumsu[4] / 10;
+		switch (temp) {
+			case 10:
+			case 9:
+				(stu+i)->grade = 'A';
+				break;
+			case 8:
+				(stu+i)->grade = 'B';
+				break;
+			case 7:
+				(stu+i)->grade = 'C';
+				break;
+			case 6:
+				(stu+i)->grade = 'D';
+				break;
+			case 5:
+				(stu+i)->grade = 'E';
+				break;
+			default:
+				(stu+i)->grade = 'F';
+				break;
+		}
+	}
+}
+
+void rank(STUDENT *stu){
+  for (int i = 0; i < 5; i++) {
+		(stu+i)->rank = 1;
+		for (int j = 0; j < 5; j++) {
+			if ((stu+i)->socre.jumsu[3] < (stu+j)->socre.jumsu[3]) {
+				(stu+i)->rank++;
+			}
+		}
+	}
+}
+
+void print(STUDENT *stu){
+  for (int i = 0; i < 5; i++) {
+		for (int j = 0; j < 4; j++) {
+			printf("%4.0lf", (stu+i)->socre.jumsu[j]);
+		}
+    printf("%6.1lf", (stu+i)->socre.jumsu[4]);
+		printf("%3c  %d  %4s\n", (stu+i)->grade, (stu+i)->rank, (stu+i)->name);
+	}
+}
+
+void bubleSorted(STUDENT *stu){
+  for(int i = 0; i < 4; i++){
+    for(int j = 0;j <4-i; j ++){
+      if((stu+j)->socre.jumsu[4]>(stu+j+1)->socre.jumsu[4]){
+        for(int k=0;k<5;k++){
+          tempDouble(&(stu+j)->socre.jumsu[k], &(stu+j+1)->socre.jumsu[k]);
+        }
+        tempChar(&(stu+j)->grade,&(stu+j+1)->grade);
+        tempInt(&(stu+j)->rank,&(stu+j+1)->rank);
+        char tempName[20];
+        strcpy(tempName,(stu+j)->name);
+        strcpy((stu+j)->name,(stu+j+1)->name);
+        strcpy((stu+j+1)->name,tempName);
+      }
+    }
+  }
+}
+
+void selectSoted(STUDENT *stu){
+  int max;
+  for(int i = 0;i < 5; i++){
+    max = i;
+    for(int j =i; j< 5;j++){
+      //check maximum
+      if((stu+max)->socre.jumsu[4]<(stu+j)->socre.jumsu[4])
+        max = j;
+    }
+    if(max != i){
+      for(int k=0;k<5;k++){
+        tempDouble(&(stu+i)->socre.jumsu[k], &(stu+max)->socre.jumsu[k]);
+      }
+      tempChar(&(stu+i)->grade,&(stu+max)->grade);
+      tempInt(&(stu+i)->rank,&(stu+max)->rank);
+      char tempName[20];
+      strcpy(tempName,(stu+i)->name);
+      strcpy((stu+i)->name,(stu+max)->name);
+      strcpy((stu+max)->name,tempName);
+    }
+  }
+}
+
+void tempChar(char* x, char* y){
+  char temp = *x;
+  *x = *y;
+  *y = temp;
+}
+
+void tempInt(int* x, int* y){
+  int temp = *x;
+  *x = *y;
+  *y = temp;
+}
+
+void tempDouble(double* x, double* y){
+  double temp = *x;
+  *x = *y;
+  *y = temp;
+}
