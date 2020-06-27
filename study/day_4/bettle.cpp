@@ -10,7 +10,7 @@ int move[8][2] = { {1,0},{0,1},{1,1},{-1,0},{0,-1},{-1,-1},{1,-1},{-1,1} };
 
 int middle(int x);
 void random_Walk(int(*arr)[M]);
-void print(int(*arr)[M],int x, int y);
+void print(int(*arr)[M], int x, int y);
 
 int main() {
     srand(time(NULL));
@@ -47,24 +47,25 @@ void random_Walk(int(*arr)[M]) {
         y += temp_Y;
         arr[y][x] = 1;
         system("cls");
-        print(arr,y,x);
+        print(arr, y, x);
         Sleep(500);
         i++;
     }
     system("cls");
-    print(arr,y,x);
+    print(arr, y, x);
 };
 
-void print(int(*arr)[M],int x, int y) {
+void print(int(*arr)[M], int x, int y) {
     for (int i = 0; i < N; i++) {
         for (int j = 0; j < M; j++) {
-            if(i == x && j == y){
-                printf(" B");
-            }else if (arr[i][j]) {
-                printf("бр");
+            if (i == x && j == y) {
+                printf("B");
             }
-            else if(!arr[i][j]){
-                printf("бс");
+            else if (arr[i][j]) {
+                printf("*");
+            }
+            else if (!arr[i][j]) {
+                printf("-");
             }
         }
         printf("\n");
