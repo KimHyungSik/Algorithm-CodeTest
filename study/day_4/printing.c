@@ -34,8 +34,7 @@ COORD get_cursor(){
 }
 
 //커서숨기기/보이기
-void cursor_view(char s)      // 0넣으면숨기기, 1넣으면보이기
-{
+void cursor_view(char s) {      // 0넣으면숨기기, 1넣으면보이기
 	HANDLE hConsole;
 	CONSOLE_CURSOR_INFO ConsoleCursor;
 	hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
@@ -44,60 +43,78 @@ void cursor_view(char s)      // 0넣으면숨기기, 1넣으면보이기
 	SetConsoleCursorInfo(hConsole, &ConsoleCursor);
 }
 
-void keyDown(int (*printing)[100]) {
+void keyDown(int (*printing)[100],int* color) {
 	int key;
 	COORD position = get_cursor();
 	int x = position.X;
 	int y = position.Y;
-	int input = _kbhit();
-	if (input)
-	{
-		key = _getch();
-		if (key == 224 || key == 0){
+	while (1) {
+
+		if (_kbhit())
+		{
 			key = _getch();
-			switch (key)
-			{
-			case 72:
-				gotoxy(x, y-1);
-				break;
-			case 75:
-				gotoxy(x -1, y);
-				break;
-			case 77:
-				gotoxy(x + 1, y);
-				break;
-			case 80:
-				gotoxy(x, y+1);
-				break;
-			default:
-				break;
+			if (key == 224 || key == 0){
+				key = _getch();
+				switch (key)
+				{
+				case 72:
+					if (y == 1) 
+						break;
+					gotoxy(x, y-1);
+					break;
+				case 75:
+					if (x == 0)
+						break;
+					gotoxy(x -1, y);
+					break;
+				case 77:
+					if (x == 99)
+						break;
+					gotoxy(x + 1, y);
+					break;
+				case 80:
+					if (y == 99)
+						break;
+					gotoxy(x, y+1);
+					break;
+				default:
+					break;
+				}
 			}
-		}
-		else {
-			if (key == 13) {
-				printing[x][y] += 1;
+			else {
+				if (key == 13) {
+					printing[x][y] = *color;
+				}
+				else if (key == 32) {
+					*color = *color + 1;
+				}
 			}
+		return;
 		}
 	}
 }
 
 int main() {
 	COORD position;
-	int tempX, tempY;
+	int tempX, tempY, color =1;
 	int printing[50][100] = { 0, };
 
 	//consol 창  크기
     system("mode con cols=100 lines=50");
 	gotoxy(0, 1);
 	while (1){
-		keyDown(printing);
+		keyDown(printing, &color);
 		position = get_cursor();
 		tempX = position.X;
 		tempY = position.Y;
 		cursor_view(0);
+		gotoxy(0, 0);
+		set_color(color, 0);
+		printf("O <- 스페이스로 색을 변경하여 엔터로 그림음 그립니다.");
 		for (int i = 0; i < 100; i++) {
 			for (int j = 0; j < 50; j++) {
 				if (printing[j][i]) {
+					set_color(printing[j][i], 0);
 					gotoxy(j, i);
 					printf("O");
 				}
