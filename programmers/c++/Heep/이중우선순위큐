@@ -1,0 +1,52 @@
+#include <string>
+#include <vector>
+#include <queue>
+
+using namespace std;
+
+vector<int> solution(vector<string> operations) {
+    priority_queue<int> q;
+    priority_queue<int> p;
+    int size = 0;
+    
+    for(string x : operations){
+      if(size < 1){
+              while(!q.empty()){
+                q.pop();
+              }
+              while(!p.empty()){
+                p.pop();
+              }
+      }
+      if(x[0] == 'I'){
+          x[0] = ' ';
+          int temp = stoi(x);
+          q.push(temp);
+          p.push(-temp);
+          size++;
+      }else if(x[0] == 'D'){
+            if(size < 1){
+                continue;
+            }
+            if(x[2] == '-'){
+                p.pop();
+                size--;
+            }else{
+                q.pop();
+                size--;
+            }
+        }
+    }
+    
+    vector<int> answer;
+    if(size > 0){
+        answer.push_back(q.top());
+        answer.push_back(-p.top());
+    }
+    else{
+        answer.push_back(0);
+        answer.push_back(0);
+    }
+   //printf("%d %d", answer[0], answer[1]);
+    return answer;
+}
