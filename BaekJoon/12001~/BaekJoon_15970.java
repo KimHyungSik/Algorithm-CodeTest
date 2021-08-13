@@ -55,6 +55,8 @@ public class Main {
     }
 
     public static void renewalDistance(int x, int y){
+        if(y < 0 || y >= N) return;
+        if(!points.get(x).equals(points.get(y))) return;
         Point px = points.get(x);
         Point py = points.get(y);
 
@@ -65,24 +67,8 @@ public class Main {
         Collections.sort(points);
 
         for(int i = 0; i < N; i++){
-            if(i < N - 1 && i > 0) {
-                if (points.get(i).equals(points.get(i + 1))) {
-                    renewalDistance(i, i+1);
-                }
-                if(points.get(i).equals(points.get(i - 1))){
-                    renewalDistance(i, i-1);
-                }
-            }
-            else if (i == N -1){
-                if (points.get(i).equals(points.get(i - 1))) {
-                    renewalDistance(i, i-1);
-                }
-            }
-            else if (i == 0){
-                if (points.get(i).equals(points.get(i + 1))) {
-                    renewalDistance(i, i+1);
-                }
-            }
+            renewalDistance(i, i + 1);
+            renewalDistance(i, i - 1);
         }
 
         for(Point p : points) distance += p.dis;
